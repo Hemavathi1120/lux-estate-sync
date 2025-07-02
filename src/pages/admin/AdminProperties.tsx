@@ -34,7 +34,7 @@ const AdminProperties = () => {
     orderBy('createdAt', 'desc')
   ]);
 
-  const [formData, setFormData<{
+  const [formData, setFormData] = useState<{
     title: string;
     description: string;
     price: number;
