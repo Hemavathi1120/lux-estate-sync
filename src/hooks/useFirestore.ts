@@ -33,7 +33,7 @@ export function useFirestore<T extends DocumentData>(
         const items = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        })) as T[];
+        } as unknown as T));
         setData(items);
         setLoading(false);
       },
