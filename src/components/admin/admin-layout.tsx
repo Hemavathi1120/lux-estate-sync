@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { 
   Home, 
@@ -10,10 +10,8 @@ import {
   MessageSquare, 
   BarChart3, 
   Settings,
-  Plus,
-  Search,
-  Filter,
-  Bell
+  Bell,
+  ArrowLeft
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -21,7 +19,8 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const [activeTab, setActiveTab] = useState('properties');
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -29,9 +28,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-gray-900">Estate Admin</h1>
+            <Link to="/" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+              <ArrowLeft className="h-4 w-4" />
+              <span>Back to Site</span>
+            </Link>
+            <div className="h-6 w-px bg-gray-300" />
+            <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
             <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-              Dashboard
+              LuxEstate
             </Badge>
           </div>
           
@@ -50,51 +54,56 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <aside className="w-64 bg-white shadow-sm min-h-screen">
           <nav className="p-4">
             <div className="space-y-2">
-              <Button
-                variant={activeTab === 'properties' ? 'default' : 'ghost'}
-                className="w-full justify-start"
-                onClick={() => setActiveTab('properties')}
-              >
-                <Home className="mr-2 h-4 w-4" />
-                Properties
-              </Button>
+              <Link to="/admin">
+                <Button
+                  variant={isActive('/admin') ? 'default' : 'ghost'}
+                  className="w-full justify-start"
+                >
+                  <BarChart3 className="mr-2 h-4 w-4" />
+                  Dashboard
+                </Button>
+              </Link>
               
-              <Button
-                variant={activeTab === 'agents' ? 'default' : 'ghost'}
-                className="w-full justify-start"
-                onClick={() => setActiveTab('agents')}
-              >
-                <Users className="mr-2 h-4 w-4" />
-                Agents
-              </Button>
+              <Link to="/admin/properties">
+                <Button
+                  variant={isActive('/admin/properties') ? 'default' : 'ghost'}
+                  className="w-full justify-start"
+                >
+                  <Home className="mr-2 h-4 w-4" />
+                  Properties
+                </Button>
+              </Link>
               
-              <Button
-                variant={activeTab === 'inquiries' ? 'default' : 'ghost'}
-                className="w-full justify-start"
-                onClick={() => setActiveTab('inquiries')}
-              >
-                <MessageSquare className="mr-2 h-4 w-4" />
-                Inquiries
-                <Badge className="ml-auto bg-red-100 text-red-800">3</Badge>
-              </Button>
+              <Link to="/admin/agents">
+                <Button
+                  variant={isActive('/admin/agents') ? 'default' : 'ghost'}
+                  className="w-full justify-start"
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Agents
+                </Button>
+              </Link>
               
-              <Button
-                variant={activeTab === 'analytics' ? 'default' : 'ghost'}
-                className="w-full justify-start"
-                onClick={() => setActiveTab('analytics')}
-              >
-                <BarChart3 className="mr-2 h-4 w-4" />
-                Analytics
-              </Button>
+              <Link to="/admin/inquiries">
+                <Button
+                  variant={isActive('/admin/inquiries') ? 'default' : 'ghost'}
+                  className="w-full justify-start"
+                >
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  Inquiries
+                  <Badge className="ml-auto bg-red-100 text-red-800">3</Badge>
+                </Button>
+              </Link>
               
-              <Button
-                variant={activeTab === 'settings' ? 'default' : 'ghost'}
-                className="w-full justify-start"
-                onClick={() => setActiveTab('settings')}
-              >
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Button>
+              <Link to="/admin/settings">
+                <Button
+                  variant={isActive('/admin/settings') ? 'default' : 'ghost'}
+                  className="w-full justify-start"
+                >
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </Button>
+              </Link>
             </div>
           </nav>
         </aside>
