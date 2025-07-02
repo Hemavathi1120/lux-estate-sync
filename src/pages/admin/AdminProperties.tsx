@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import AdminLayout from '@/components/admin/admin-layout';
 import { Button } from '@/components/ui/button';
@@ -35,7 +34,21 @@ const AdminProperties = () => {
     orderBy('createdAt', 'desc')
   ]);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData<{
+    title: string;
+    description: string;
+    price: number;
+    location: string;
+    bedrooms: number;
+    bathrooms: number;
+    squareFootage: number;
+    propertyType: 'house' | 'apartment' | 'condo' | 'villa' | 'penthouse';
+    status: 'available' | 'sold' | 'pending';
+    amenities: string[];
+    coordinates: { lat: number; lng: number };
+    featured: boolean;
+    images: string[];
+  }>({
     title: '',
     description: '',
     price: 0,
@@ -43,12 +56,12 @@ const AdminProperties = () => {
     bedrooms: 1,
     bathrooms: 1,
     squareFootage: 1000,
-    propertyType: 'house' as const,
-    status: 'available' as const,
-    amenities: [] as string[],
+    propertyType: 'house',
+    status: 'available',
+    amenities: [],
     coordinates: { lat: 0, lng: 0 },
     featured: false,
-    images: [] as string[]
+    images: []
   });
 
   const handleImageUpload = async (files: FileList) => {
@@ -333,7 +346,7 @@ const AdminProperties = () => {
                       </label>
                       <select
                         value={formData.propertyType}
-                        onChange={(e) => setFormData({...formData, propertyType: e.target.value as any})}
+                        onChange={(e) => setFormData({...formData, propertyType: e.target.value as 'house' | 'apartment' | 'condo' | 'villa' | 'penthouse'})}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="house">House</option>
@@ -392,7 +405,7 @@ const AdminProperties = () => {
                       </label>
                       <select
                         value={formData.status}
-                        onChange={(e) => setFormData({...formData, status: e.target.value as any})}
+                        onChange={(e) => setFormData({...formData, status: e.target.value as 'available' | 'sold' | 'pending'})}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="available">Available</option>
