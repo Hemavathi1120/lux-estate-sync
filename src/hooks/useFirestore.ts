@@ -10,11 +10,12 @@ import {
   doc, 
   orderBy,
   where,
-  QueryConstraint
+  QueryConstraint,
+  DocumentData
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
-export function useFirestore<T>(
+export function useFirestore<T extends DocumentData>(
   collectionName: string, 
   constraints: QueryConstraint[] = []
 ) {
@@ -48,15 +49,16 @@ export function useFirestore<T>(
 
   const add = async (item: Omit<T, 'id'>) => {
     try {
-      await addDoc(collection(db, collectionName), item);
+      await addDoc(collection(db, collectionName), item as DocumentData);
     } catch (err: any) {
       setError(err.message);
     }
   };
 
-  const update = async (id: string, updates: Partial<T>) => {
+  const update = async (id: string, updates: Partial<Omit<T, 'id'>>) => {
     try {
-      await updateDoc(doc(db, collectionName, id), updates);
+      const docRef = doc(db, collectionName, id);
+      await updateDoc(docRef, updates as DocumentData);
     } catch (err: any) {
       setError(err.message);
     }
